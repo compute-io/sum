@@ -25,7 +25,10 @@
   "keywords": [
     "compute.io",
     "compute",
-    "computation"
+    "computation",
+    "statistics",
+    "stats",
+    "sum"
   ],
   "bugs": {
     "url": "https://github.com/compute-io/sum/issues"
