@@ -2,7 +2,7 @@ Sum
 ===
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Dependencies][dependencies-image]][dependencies-url]
 
-> Computes the sum over an array of values.
+> Computes the sum of an array.
 
 
 ## Installation
@@ -16,14 +16,13 @@ For use in the browser, use [browserify](https://github.com/substack/node-browse
 
 ## Usage
 
-
 ``` javascript
 var sum = require( 'compute-sum' );
 ```
 
 ### sum( arr[, accessor] )
 
-Computes the sum of the elements in an `array`. For numeric `arrays`,
+Computes the sum of an `array`. For numeric `arrays`,
 
 ``` javascript
 var data = [ 2, 4, 5, 3, 4 ];
@@ -51,6 +50,12 @@ var s = sum( data, getValue );
 // returns 18
 ```
 
+
+__Note__: if provided an empty `array`, the function returns `null`.
+
+
+
+
 ## Examples
 
 ``` javascript
@@ -58,7 +63,6 @@ var s = sum( data, getValue );
 var sum = require( 'compute-sum' );
 
 var data = new Array( 1000 );
-
 for ( var i = 0; i < data.length; i++ ) {
 	data[ i ] = Math.random() * 100;
 }

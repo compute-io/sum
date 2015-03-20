@@ -26,15 +26,15 @@ describe( 'compute-sum', function tests() {
 
 	it( 'should throw an error if provided a non-array', function test() {
 		var values = [
-				'5',
-				5,
-				true,
-				undefined,
-				null,
-				NaN,
-				function(){},
-				{}
-			];
+			'5',
+			5,
+			true,
+			undefined,
+			null,
+			NaN,
+			function(){},
+			{}
+		];
 
 		for ( var i = 0; i < values.length; i++ ) {
 			expect( badValue( values[i] ) ).to.throw( TypeError );
@@ -46,7 +46,7 @@ describe( 'compute-sum', function tests() {
 		}
 	});
 
-	it( 'should throw an error if provided accessor is not a function', function test() {
+	it( 'should throw an error if provided an accessor which is not a function', function test() {
 		var values = [
 			'5',
 			5,
@@ -78,7 +78,16 @@ describe( 'compute-sum', function tests() {
 		assert.strictEqual( sum( data ), expected );
 	});
 
-	it( 'should compute the sample variance using an accessor function', function test() {
+	it( 'should return null if provided an empty array', function test() {
+		var data, expected;
+
+		data = [];
+		expected = null;
+
+		assert.strictEqual( sum( data ), expected );
+	});
+
+	it( 'should compute the sum using an accessor function', function test() {
 		var data, expected, actual;
 
 		data = [

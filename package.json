@@ -1,7 +1,7 @@
 {
   "name": "compute-sum",
   "version": "1.0.0",
-  "description": "Computes the sum over an array of values.",
+  "description": "Computes the sum of an array.",
   "author": {
     "name": "Athan Reines",
     "email": "kgryte@gmail.com"
@@ -30,9 +30,13 @@
     "compute.io",
     "compute",
     "computation",
+    "mathematics",
+    "math",
     "statistics",
     "stats",
-    "sum"
+    "sum",
+    "array",
+    "numeric array"
   ],
   "bugs": {
     "url": "https://github.com/compute-io/sum/issues"
