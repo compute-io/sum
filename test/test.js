@@ -1,3 +1,5 @@
+/* global require, describe, it */
+'use strict';
 
 // MODULES //
 
@@ -17,7 +19,6 @@ var expect = chai.expect,
 // TESTS //
 
 describe( 'compute-sum', function tests() {
-	'use strict';
 
 	it( 'should export a function', function test() {
 		expect( sum ).to.be.a( 'function' );
@@ -45,6 +46,29 @@ describe( 'compute-sum', function tests() {
 		}
 	});
 
+	it( 'should throw an error if provided accessor is not a function', function test() {
+		var values = [
+			'5',
+			5,
+			[],
+			undefined,
+			null,
+			NaN,
+			true,
+			{}
+		];
+
+		for ( var i = 0; i < values.length; i++ ) {
+			expect( badValue( values[i] ) ).to.throw( TypeError );
+		}
+
+		function badValue( value ) {
+			return function() {
+				sum( [ 1, 2, 3 ], value );
+			};
+		}
+	});
+
 	it( 'should compute the sum', function test() {
 		var data, expected;
 
@@ -52,6 +76,27 @@ describe( 'compute-sum', function tests() {
 		expected = 24;
 
 		assert.strictEqual( sum( data ), expected );
+	});
+
+	it( 'should compute the sample variance using an accessor function', function test() {
+		var data, expected, actual;
+
+		data = [
+			{'x':2},
+			{'x':4},
+			{'x':5},
+			{'x':3},
+			{'x':8},
+			{'x':2}
+		];
+		expected = 24;
+		actual = sum( data, getValue );
+
+		function getValue( d ) {
+			return d.x;
+		}
+
+		assert.strictEqual( actual, expected );
 	});
 
 });
