@@ -1,20 +1,20 @@
 {
   "name": "compute-sum",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Computes the sum of an array.",
   "author": {
     "name": "Athan Reines",
     "email": "kgryte@gmail.com"
   },
   "contributors": [
-		{
-		  "name": "Athan Reines",
-		  "email": "kgryte@gmail.com"
-		},
-		{
-			"name": "Philipp Burckhardt",
-			"email": "pburckhardt@outlook.com"
-		}
+    {
+      "name": "Athan Reines",
+      "email": "kgryte@gmail.com"
+    },
+    {
+      "name": "Philipp Burckhardt",
+      "email": "pburckhardt@outlook.com"
+    }
   ],
   "scripts": {
     "test": "./node_modules/.bin/mocha",
