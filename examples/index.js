@@ -1,3 +1,5 @@
+'use strict';
+
 var sum = require( './../lib' );
 
 var data = new Array( 1000 );

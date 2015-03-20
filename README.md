@@ -16,16 +16,47 @@ For use in the browser, use [browserify](https://github.com/substack/node-browse
 
 ## Usage
 
-To use the module,
 
 ``` javascript
 var sum = require( 'compute-sum' );
 ```
 
+### sum( arr[, accessor] )
+
+Computes the sum of the elements in an `array`. For numeric `arrays`,
+
+``` javascript
+var data = [ 2, 4, 5, 3, 4 ];
+
+var s = sum( data );
+// returns 18
+```
+
+For non-numeric `arrays`, provide an accessor `function` for accessing numeric `array` values
+
+``` javascript
+var data = [
+    {'x':2},
+    {'x':4},
+    {'x':5},
+    {'x':3},
+    {'x':4},
+];
+
+function getValue( d ) {
+    return d.x;
+}
+
+var s = sum( data, getValue );
+// returns 18
+```
 
 ## Examples
 
 ``` javascript
+
+var sum = require( 'compute-sum' );
+
 var data = new Array( 1000 );
 
 for ( var i = 0; i < data.length; i++ ) {
@@ -46,7 +77,7 @@ $ node ./examples/index.js
 
 ### Unit
 
-Unit tests use the [Mocha](http://visionmedia.github.io/mocha) test framework with [Chai](http://chaijs.com) assertions. To run the tests, execute the following command in the top-level application directory:
+Unit tests use the [Mocha](http://mochajs.org) test framework with [Chai](http://chaijs.com) assertions. To run the tests, execute the following command in the top-level application directory:
 
 ``` bash
 $ make test
@@ -66,16 +97,14 @@ $ make test-cov
 Istanbul creates a `./reports/coverage` directory. To access an HTML version of the report,
 
 ``` bash
-$ open reports/coverage/lcov-report/index.html
+$ make view-cov
 ```
 
-
+---
 ## License
 
-[MIT license](http://opensource.org/licenses/MIT). 
+[MIT license](http://opensource.org/licenses/MIT).
 
-
----
 ## Copyright
 
 Copyright &copy; 2014. Athan Reines.
