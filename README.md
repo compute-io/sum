@@ -2,7 +2,7 @@ Sum
 ===
 [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Coverage Status][coveralls-image]][coveralls-url] [![Dependencies][dependencies-image]][dependencies-url]
 
-> Computes the sum over an array of values.
+> Computes the sum.
 
 
 ## Installation
@@ -16,54 +16,207 @@ For use in the browser, use [browserify](https://github.com/substack/node-browse
 
 ## Usage
 
-
 ``` javascript
 var sum = require( 'compute-sum' );
 ```
 
-### sum( arr[, accessor] )
+### sum( arr[, options] )
 
-Computes the sum of the elements in an `array`. For numeric `arrays`,
+Computes the sum of the elements in `x`. `x` may be either an [`array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array), [`typed array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays), or [`matrix`](https://github.com/dstructs/matrix).
 
 ``` javascript
-var data = [ 2, 4, 5, 3, 4 ];
+var data = [ 1, 2, 3, 4 ];
 
 var s = sum( data );
-// returns 18
+// returns 9
+
+data = new Int8Array( data );
+s = sum( data );
+// returns 9
 ```
 
-For non-numeric `arrays`, provide an accessor `function` for accessing numeric `array` values
+For non-numeric `arrays`, provide an accessor `function` for accessing `array` values
 
 ``` javascript
-var data = [
-    {'x':2},
-    {'x':4},
-    {'x':5},
-    {'x':3},
-    {'x':4},
+var arr = [
+	{'x':1},
+	{'x':2},
+	{'x':3},
+	{'x':4}
 ];
 
 function getValue( d ) {
-    return d.x;
+	return d.x;
 }
 
-var s = sum( data, getValue );
-// returns 18
+var value = sum( arr, {'accessor': getValue} );
+// returns 9
+```
+
+If provided a [`matrix`](https://github.com/dstructs/matrix), the function accepts the following `options`:
+
+*	__dim__: dimension along which to compute the sum. Default: `2` (along the columns).
+*	__dtype__: output [`matrix`](https://github.com/dstructs/matrix) data type. Default: `float64`.
+
+By default, the function computes the sum along the columns (`dim=2`).
+
+``` javascript
+var matrix = require( 'dstructs-matrix' ),
+	data,
+	mat,
+	s,
+	i;
+
+data = new Int8Array( 9 );
+for ( i = 0; i < data.length; i++ ) {
+	data[ i ] = i + 1;
+}
+mat = matrix( data, [3,3], 'int8' );
+/*
+	[  1 2 3
+	   4 5 6
+	   7 8 9 ]
+*/
+
+s = sum( mat );
+/*
+	[  6
+	   15
+	   24 ]
+*/
+```
+
+To compute the sum along the rows, set the `dim` option to `1`.
+
+``` javascript
+s = sum( mat, {
+	'dim': 1
+});
+/*
+	[ 12 15 18 ]
+*/
+```
+
+By default, the output [`matrix`](https://github.com/dstructs/matrix) data type is `float64`. To specify a different output data type, set the `dtype` option.
+
+``` javascript
+s = sum( mat, {
+	'dim': 1,
+	'dtype': 'uint8'
+});
+/*
+	[ 12 15 18 ]
+*/
+
+var dtype = p.dtype;
+// returns 'uint8'
+```
+
+If provided a [`matrix`](https://github.com/dstructs/matrix) having either dimension equal to `1`, the function treats the [`matrix`](https://github.com/dstructs/matrix) as a [`typed array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays) and returns a `numeric` value.
+
+``` javascript
+data = [ 2, 4, 5 ];
+
+// Row vector:
+mat = matrix( new Int8Array( data ), [1,3], 'int8' );
+s = sum( mat );
+// returns 11
+
+// Column vector:
+mat = matrix( new Int8Array( data ), [3,1], 'int8' );
+s = sum( mat );
+// returns 11
+```
+
+If provided an empty [`array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array), [`typed array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays), or [`matrix`](https://github.com/dstructs/matrix), the function returns `null`.
+
+``` javascript
+s = sum( [] );
+// returns null
+
+s = sum( new Int8Array( [] ) );
+// returns null
+
+s = sum( matrix( [0,0] ) );
+// returns null
+
+s = sum( matrix( [0,10] ) );
+// returns null
+
+s = sum( matrix( [10,0] ) );
+// returns null
 ```
 
 ## Examples
 
 ``` javascript
+var matrix = require( 'dstructs-matrix' ),
+	sum = require( 'compute-sum' );
 
-var sum = require( 'compute-sum' );
+var data,
+	mat,
+	s,
+	i;
 
+// ----
+// Plain arrays...
 var data = new Array( 1000 );
-
 for ( var i = 0; i < data.length; i++ ) {
 	data[ i ] = Math.random() * 100;
 }
+s = sum( data );
+console.log( 'Arrays: %d\n', s );
 
-console.log( sum( data ) );
+
+// ----
+// Object arrays (accessors)...
+function getValue( d ) {
+	return d.x;
+}
+for ( i = 0; i < data.length; i++ ) {
+	data[ i ] = {
+		'x': data[ i ]
+	};
+}
+s = sum( data, {
+	'accessor': getValue
+});
+console.log( 'Accessors: %d\n', s );
+
+
+// ----
+// Typed arrays...
+data = new Int32Array( 1000 );
+for ( i = 0; i < data.length; i++ ) {
+	data[ i ] = Math.random() * 100;
+}
+s = sum( data );
+
+
+// ----
+// Matrices (along rows)...
+mat = matrix( data, [100,10], 'int32' );
+s = sum( mat, {
+	'dim': 1
+});
+console.log( 'Matrix (rows): %s\n', s.toString() );
+
+
+// ----
+// Matrices (along columns)...
+s = sum( mat, {
+	'dim': 2
+});
+console.log( 'Matrix (columns): %s\n', s.toString() );
+
+
+// ----
+// Matrices (custom output data type)...
+s = sum( mat, {
+	'dtype': 'uint8'
+});
+console.log( 'Matrix (%s): %s\n', s.dtype, s.toString() );
+
 ```
 
 To run the example code from the top-level application directory,
@@ -107,7 +260,7 @@ $ make view-cov
 
 ## Copyright
 
-Copyright &copy; 2014. Athan Reines.
+Copyright &copy; 2015. The Compute.io Authors.
 
 
 [npm-image]: http://img.shields.io/npm/v/compute-sum.svg
