@@ -28,11 +28,11 @@ Computes the sum of the elements in `x`. `x` may be either an [`array`](https://
 var data = [ 1, 2, 3, 4 ];
 
 var s = sum( data );
-// returns 9
+// returns 10
 
 data = new Int8Array( data );
 s = sum( data );
-// returns 9
+// returns 10
 ```
 
 For non-numeric `arrays`, provide an accessor `function` for accessing `array` values
@@ -49,8 +49,10 @@ function getValue( d ) {
 	return d.x;
 }
 
-var value = sum( arr, {'accessor': getValue} );
-// returns 9
+var value = sum( arr, {'accessor':
+	getValue
+});
+// returns 10
 ```
 
 If provided a [`matrix`](https://github.com/dstructs/matrix), the function accepts the following `options`:
@@ -260,8 +262,7 @@ $ make view-cov
 
 ## Copyright
 
-Copyright &copy; 2015. The Compute.io Authors.
-
+Copyright &copy; 2014-2015. The [Compute.io](https://github.com/compute-io) Authors.
 
 [npm-image]: http://img.shields.io/npm/v/compute-sum.svg
 [npm-url]: https://npmjs.org/package/compute-sum
