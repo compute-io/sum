@@ -20,7 +20,7 @@ For use in the browser, use [browserify](https://github.com/substack/node-browse
 var sum = require( 'compute-sum' );
 ```
 
-### sum( arr[, options] )
+### sum( x[, options] )
 
 Computes the sum of the elements in `x`. `x` may be either an [`array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array), [`typed array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays), or [`matrix`](https://github.com/dstructs/matrix).
 
