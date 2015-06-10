@@ -7,7 +7,7 @@ Sum
 The [sum](http://en.wikipedia.org/wiki/Summation) is defined as
 
 <div class="equation" align="center" data-raw-text="\sum_{i=0}^{N-1} x_i = x_0 + x_1 + x_2 + \ldots + x_{N-2} + x_{N-1}" data-equation="eq:sum">
-	<img src="" alt="Equation for summation.">
+	<img src="https://cdn.rawgit.com/compute-io/sum/f6e6f6cd4c7b9355ad0613bc18b896f62dccc359/docs/img/eqn.svg" alt="Equation for summation.">
 	<br>
 </div>
 
