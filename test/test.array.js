@@ -33,8 +33,8 @@ describe( 'array sum', function tests() {
 		assert.strictEqual( sum( data ), expected );
 	});
 
-	it( 'should return null if provided an empty array', function test() {
-		assert.isNull( sum( [] ) );
+	it( 'should return 0 if provided an empty array', function test() {
+		assert.strictEqual( sum( [] ), 0 );
 	});
 
 });

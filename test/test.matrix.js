@@ -22,7 +22,6 @@ var expect = chai.expect,
 // TESTS //
 
 describe( 'matrix sum', function tests() {
-
 	var data,
 		mat,
 		i;
@@ -32,7 +31,6 @@ describe( 'matrix sum', function tests() {
 		data[ i ] = i + 1;
 	}
 	mat = matrix( data, [3,3], 'int8' );
-
 
 	it( 'should export a function', function test() {
 		expect( sum ).to.be.a( 'function' );
@@ -65,19 +63,19 @@ describe( 'matrix sum', function tests() {
 		assert.strictEqual( p.toString(), expected );
 	});
 
-	it( 'should return null if provided a matrix having one or more zero dimensions', function test() {
+	it( 'should return 0 if provided a matrix having one or more zero dimensions', function test() {
 		var out, mat;
 
 		out = matrix( [0,0] );
 
 		mat = matrix( [0,10] );
-		assert.isNull( sum( out, mat ) );
+		assert.strictEqual( sum( out, mat ), 0 );
 
 		mat = matrix( [10,0] );
-		assert.isNull( sum( out, mat ) );
+		assert.strictEqual( sum( out, mat ), 0 );
 
 		mat = matrix( [0,0] );
-		assert.isNull( sum( out, mat ) );
+		assert.strictEqual( sum( out, mat ), 0 );
 	});
 
 });

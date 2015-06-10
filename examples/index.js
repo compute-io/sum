@@ -41,6 +41,7 @@ for ( i = 0; i < data.length; i++ ) {
 	data[ i ] = Math.random() * 100;
 }
 s = sum( data );
+console.log( 'Typed arrays: %d\n', s );
 
 
 // ----

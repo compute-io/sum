@@ -1,7 +1,7 @@
 {
   "name": "compute-sum",
   "version": "1.1.0",
-  "description": "Computes the sum of an array.",
+  "description": "Computes the sum.",
   "author": {
     "name": "Athan Reines",
     "email": "kgryte@gmail.com"
@@ -36,14 +36,18 @@
     "stats",
     "sum",
     "array",
-    "numeric array"
+    "numeric array",
+    "summation",
+    "arithmetic",
+    "matrix",
+    "matrices",
+    "accessor"
   ],
   "bugs": {
     "url": "https://github.com/compute-io/sum/issues"
   },
   "dependencies": {
     "compute-array-constructors": "^1.0.0",
-    "compute-dtype": "^1.0.0",
     "dstructs-matrix": "^2.0.0",
     "validate.io-array-like": "^1.0.0",
     "validate.io-function": "^1.0.2",
@@ -58,7 +62,7 @@
     "coveralls": "^2.11.1",
     "istanbul": "^0.3.0",
     "jshint": "2.x.x",
-    "jshint-stylish": "^2.0.0"
+    "jshint-stylish": "^2.x.x"
   },
   "license": "MIT"
 }

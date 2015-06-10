@@ -44,8 +44,8 @@ describe( 'accessor sum', function tests() {
 		}
 	});
 
-	it( 'should return null if provided an empty array', function test() {
-		assert.isNull( sum( [], getValue ) );
+	it( 'should return 0 if provided an empty array', function test() {
+		assert.strictEqual( sum( [], getValue ), 0 );
 
 		function getValue( d ) {
 			return d.x;

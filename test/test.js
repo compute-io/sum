@@ -3,10 +3,11 @@
 
 // MODULES //
 
-var matrix = require( 'dstructs-matrix' );
-
 var // Expectation library:
 	chai = require( 'chai' ),
+
+	// Matrix data structure:
+	matrix = require( 'dstructs-matrix' ),
 
 	// Module to be tested:
 	sum = require( './../lib' );
@@ -26,9 +27,9 @@ describe( 'compute-sum', function tests() {
 		expect( sum ).to.be.a( 'function' );
 	});
 
-	it( 'should throw an error if provided a non-array', function test() {
+	it( 'should throw an error if not provided either an array or matrix', function test() {
 		var values = [
-			// '5',
+			// '5', // array-like
 			5,
 			true,
 			undefined,
@@ -67,8 +68,9 @@ describe( 'compute-sum', function tests() {
 	});
 
 	it( 'should throw an error if provided a dim option which is not a positive integer', function test() {
-		var data = matrix( new Int32Array([1,2,3,4]), [2,2] );
-		var values = [
+		var data, values;
+
+		values = [
 			'5',
 			-5,
 			2.2,
@@ -80,41 +82,48 @@ describe( 'compute-sum', function tests() {
 			{}
 		];
 
+		data = matrix( new Int32Array([1,2,3,4]), [2,2] );
+
 		for ( var i = 0; i < values.length; i++ ) {
 			expect( badValue( values[ i ] ) ).to.throw( Error );
 		}
-
 		function badValue( value ) {
 			return function() {
-				sum( data, {'dim': value} );
+				sum( data, {
+					'dim': value
+				});
 			};
 		}
 	});
 
-	it( 'should throw an error if provided a dim option which exceeds matrix dimensions ( = 2 )', function test() {
-		var data = matrix( new Int32Array([1,2,3,4]), [2,2] );
-		var values = [
+	it( 'should throw an error if provided a dim option which exceeds matrix dimensions (2)', function test() {
+		var data, values;
+
+		values = [
 			3,
 			4,
 			5
 		];
 
+		data = matrix( new Int32Array([1,2,3,4]), [2,2] );
+
 		for ( var i = 0; i < values.length; i++ ) {
 			expect( badValue( values[ i ] ) ).to.throw( RangeError );
 		}
-
 		function badValue( value ) {
 			return function() {
-				sum( data, {'dim': value} );
+				sum( data, {
+					'dim': value
+				});
 			};
 		}
 	});
 
-	it( 'should return null if provided an empty array', function test() {
-		assert.isNull( sum( [] ) );
+	it( 'should return 0 if provided an empty array', function test() {
+		assert.strictEqual( sum( [] ), 0 );
 	});
 
-	it( 'should compute the sum for an array', function test() {
+	it( 'should compute the sum of an array', function test() {
 		var data, expected;
 
 		data = [ 2, 4, 5, 3, 8, 2 ];
@@ -123,8 +132,7 @@ describe( 'compute-sum', function tests() {
 		assert.strictEqual( sum( data ), expected );
 	});
 
-
-	it( 'should compute the sum for a vector (matrix with one column or row)', function test() {
+	it( 'should compute the sum of a vector (matrix with one column or row)', function test() {
 		var data, expected;
 
 		expected = 24;
@@ -133,9 +141,8 @@ describe( 'compute-sum', function tests() {
 		assert.strictEqual( sum( data ), expected );
 	});
 
-
 	it( 'should compute the sum using an accessor function', function test() {
-		var data, expected;
+		var data, expected, actual;
 
 		data = [
 			{'x':2},
@@ -145,37 +152,46 @@ describe( 'compute-sum', function tests() {
 			{'x':8},
 			{'x':2}
 		];
+
+		actual = sum( data, {
+			'accessor': getValue
+		});
 		expected = 24;
 
-		assert.strictEqual( sum( data, {'accessor': getValue} ), expected );
+		assert.strictEqual( actual, expected );
 
 		function getValue( d ) {
 			return d.x;
 		}
 	});
 
-	it( 'should calculate the column sums of a matrix', function test() {
-		var data, expected, results;
+	it( 'should compute the column sums of a matrix', function test() {
+		var data, expected, actual;
 
 		data = matrix( new Int32Array( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] ), [3,3] );
 		expected = matrix( new Int32Array( [ 6, 15, 24 ] ), [3,1] );
 
-		results = sum( data, {'dtype': 'int32'} );
+		actual = sum( data, {
+			'dtype': 'int32'
+		});
 
-		assert.strictEqual( results.data.length, expected.data.length );
-		assert.deepEqual( results.data, expected.data );
+		assert.deepEqual( actual.shape, expected.shape );
+		assert.deepEqual( actual.data, expected.data );
 	});
 
-	it( 'should calculate the row sums of a matrix', function test() {
-		var data, expected, results;
+	it( 'should compute the row sums of a matrix', function test() {
+		var data, expected, actual;
 
 		data = matrix( new Int32Array( [ 1, 2, 3, 4, 5, 6, 7, 8, 9 ] ), [3,3] );
 		expected = matrix( new Int32Array( [ 12, 15, 18 ] ), [1, 3] );
 
-		results = sum( data, {'dim': 1, 'dtype': 'int32'} );
+		actual = sum( data, {
+			'dim': 1,
+			'dtype': 'int32'
+		});
 
-		assert.strictEqual( results.data.length, expected.data.length );
-		assert.deepEqual( results.data, expected.data );
+		assert.deepEqual( actual.shape, expected.shape );
+		assert.deepEqual( actual.data, expected.data );
 	});
 
 });

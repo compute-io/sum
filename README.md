@@ -4,6 +4,15 @@ Sum
 
 > Computes the sum.
 
+The [sum](http://en.wikipedia.org/wiki/Summation) is defined as
+
+<div class="equation" align="center" data-raw-text="\sum_{i=0}^{N-1} x_i = x_0 + x_1 + x_2 + \ldots + x_{N-2} + x_{N-1}" data-equation="eq:sum">
+	<img src="" alt="Equation for summation.">
+	<br>
+</div>
+
+where `x_0, x_1,...,x_{N-1}` are individual data values and `N` is the total number of values in the data set.
+
 
 ## Installation
 
@@ -35,7 +44,7 @@ s = sum( data );
 // returns 10
 ```
 
-For non-numeric `arrays`, provide an accessor `function` for accessing `array` values
+For non-numeric `arrays`, provide an accessor `function` for accessing `array` values.
 
 ``` javascript
 var arr = [
@@ -49,8 +58,8 @@ function getValue( d ) {
 	return d.x;
 }
 
-var value = sum( arr, {'accessor':
-	getValue
+var value = sum( arr, {
+	'accessor': getValue
 });
 // returns 10
 ```
@@ -130,23 +139,23 @@ s = sum( mat );
 // returns 11
 ```
 
-If provided an empty [`array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array), [`typed array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays), or [`matrix`](https://github.com/dstructs/matrix), the function returns `null`.
+If provided an empty [`array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array), [`typed array`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Typed_arrays), or [`matrix`](https://github.com/dstructs/matrix), the function returns the [empty sum](http://en.wikipedia.org/wiki/Empty_sum) which is equal to `0`.
 
 ``` javascript
 s = sum( [] );
-// returns null
+// returns 0
 
 s = sum( new Int8Array( [] ) );
-// returns null
+// returns 0
 
 s = sum( matrix( [0,0] ) );
-// returns null
+// returns 0
 
 s = sum( matrix( [0,10] ) );
-// returns null
+// returns 0
 
 s = sum( matrix( [10,0] ) );
-// returns null
+// returns 0
 ```
 
 ## Examples
@@ -160,17 +169,13 @@ var data,
 	s,
 	i;
 
-// ----
 // Plain arrays...
 var data = new Array( 1000 );
 for ( var i = 0; i < data.length; i++ ) {
 	data[ i ] = Math.random() * 100;
 }
 s = sum( data );
-console.log( 'Arrays: %d\n', s );
 
-
-// ----
 // Object arrays (accessors)...
 function getValue( d ) {
 	return d.x;
@@ -183,10 +188,7 @@ for ( i = 0; i < data.length; i++ ) {
 s = sum( data, {
 	'accessor': getValue
 });
-console.log( 'Accessors: %d\n', s );
 
-
-// ----
 // Typed arrays...
 data = new Int32Array( 1000 );
 for ( i = 0; i < data.length; i++ ) {
@@ -194,31 +196,21 @@ for ( i = 0; i < data.length; i++ ) {
 }
 s = sum( data );
 
-
-// ----
 // Matrices (along rows)...
 mat = matrix( data, [100,10], 'int32' );
 s = sum( mat, {
 	'dim': 1
 });
-console.log( 'Matrix (rows): %s\n', s.toString() );
 
-
-// ----
 // Matrices (along columns)...
 s = sum( mat, {
 	'dim': 2
 });
-console.log( 'Matrix (columns): %s\n', s.toString() );
 
-
-// ----
 // Matrices (custom output data type)...
 s = sum( mat, {
 	'dtype': 'uint8'
 });
-console.log( 'Matrix (%s): %s\n', s.dtype, s.toString() );
-
 ```
 
 To run the example code from the top-level application directory,
@@ -263,6 +255,7 @@ $ make view-cov
 ## Copyright
 
 Copyright &copy; 2014-2015. The [Compute.io](https://github.com/compute-io) Authors.
+
 
 [npm-image]: http://img.shields.io/npm/v/compute-sum.svg
 [npm-url]: https://npmjs.org/package/compute-sum
